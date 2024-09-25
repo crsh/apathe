@@ -1,0 +1,21 @@
+year <- sub("-.*", "", meta$Date)
+note <- paste0("R package version ", meta$Version)
+
+bibentry(
+  bibtype = "Manual"
+  , textVersion = paste0(
+    "Aust, F. ("
+    , year
+    , "). apathe: American Psychological Association Thesis with R Markdown. "
+    , note
+    , ". Retrieved from "
+    , meta$URL
+  )
+  , title = "{apathe}: {American} American Psychological Association Thesis with {R Markdown}"
+  , author = c(
+    person("Frederik", "Aust")
+  )
+  , year = year
+  , note = note
+  , url = meta$URL
+)
