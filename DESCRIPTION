@@ -1,13 +1,16 @@
 Package: apathe
 Title: American Psychological Association Thesis with R Markdown
 Version: 0.0.0.9000
+Date: 2024-09-26
 Authors@R: 
     person("Frederik", "Aust", email = "frederik.aust@uni-koeln.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-4900-788X"))
 Description: Provides R Markdown document formats for theses that conform to American Psychological Association manuscript guidelines.
 URL: https://github.com/crsh/apathe
 BugReports: https://github.com/crsh/apathe/issues
 Imports:
-    papaja (>= 0.1.2)
+    papaja (>= 0.1.2),
+    rmdfiltr (>= 0.1.0),
+    assertthat
 SystemRequirements: Rendering the document template requires
   pandoc (>= 2.0; https://pandoc.org) and for PDFs a TeX distribution,
   such as TinyTeX (>= 0.12; https://yihui.org/tinytex/)
@@ -15,4 +18,4 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
