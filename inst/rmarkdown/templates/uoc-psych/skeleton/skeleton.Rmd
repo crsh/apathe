@@ -4,8 +4,8 @@ shorttitle        : "Title"
 
 author: 
   - name          : "First Author"
-    address       : "Postal address"
     email         : "my@email.com"
+    student-id    : "123456"
 
 advisor           : "Ernst-August Dölle"
 date              : "`r Sys.Date()`"
@@ -25,28 +25,29 @@ abstract: |
   <!-- https://tinyurl.com/ybremelq -->
   
 keywords          : "keywords"
-wordcount         : "X"
+charcount         : "88.000--100.000"
 
-bibliography      : "r-references.bib"
+bibliography      : ["r-references.bib"]
 
 output            : apathe::uoc_psych_pdf
 ---
 
-```{r setup, include = FALSE}
-library("papaja")
-r_refs("r-references.bib")
-```
+```{r}
+#| label: setup
+#| include: false
 
-```{r analysis-preferences}
+library("papaja")
+library("apathe")
+r_refs("r-references.bib")
+
 # Seed for random number generation
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
 
-
 # Methods
-We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
+I report how I determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
 
 ## Participants
 
@@ -55,7 +56,7 @@ We report how we determined our sample size, all data exclusions (if any), all m
 ## Procedure
 
 ## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
+I used `r cite_r("r-references.bib")` for all our analyses.
 
 
 # Results
@@ -63,9 +64,9 @@ We used `r cite_r("r-references.bib")` for all our analyses.
 # Discussion
 
 
-\newpage
+\clearpage
 
 # References
 
-::: {#refs custom-style="Bibliography"}
+:::{#refs}
 :::

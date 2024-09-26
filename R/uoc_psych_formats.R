@@ -107,6 +107,34 @@ uoc_psych_pdf <- function(
 
     output_text <- readLines(output_file, encoding = "UTF-8")
 
+    # Correct abstract and note environment
+    ## Note is added to the end of the document by Lua filter and needs to be
+    ## moved to the preamble
+    lua_addition_start <- which(grepl("^% papaja Lua-filter additions$", output_text))
+    lua_addition_end <- which(grepl("^% End of papaja Lua-filter additions$", output_text))
+
+    if(lua_addition_end - lua_addition_start > 1) {
+      header_additions <- output_text[c((lua_addition_start + 1):(lua_addition_end - 1))]
+      output_text <- output_text[-c(lua_addition_start:lua_addition_end)]
+      begin_doc <- which(output_text == "\\begin{document}")
+      output_text <- c(
+        output_text[1:(begin_doc-1)]
+        , header_additions
+        , output_text[begin_doc:length(output_text)]
+      )
+    }
+    output_text <- paste(output_text, collapse = "\n")
+
+    output_text <- gsub(
+      "\\\\begin\\{document\\}\n\\\\maketitle\n\\\\begin\\{abstract\\}(.+)\\\\end\\{abstract\\}"
+      , paste0(
+        "\\\\abstract{%\\1}\n\n"
+        , "\n\n\\\\begin\\{document\\}\n\\\\maketitle"
+      )
+      , output_text
+      , useBytes = TRUE
+    )
+
     # Remove abstract environment if empty
     output_text <- gsub("\\\\abstract\\{\n\n\\}", "", output_text, useBytes = TRUE)
 
@@ -217,7 +245,13 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   }
 
   ## Set additional lua filters
-  args <- rmdfiltr::add_wordcount_filter(args, error = FALSE)
+  args <- rmdfiltr::add_charcount_filter(args, error = FALSE)
+
+  parse_metadata_filter <- system.file(
+    "lua", "parse_metadata.lua"
+    , package = "apathe"
+  )
+  args <- rmdfiltr::add_custom_filter(args, filter_path = parse_metadata_filter, lua = TRUE)
 
   ## Set template variables and defaults
   if(is.null(metadata$documentclass)) {
@@ -225,7 +259,7 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   }
 
   if(is.null(metadata$classoption)) {
-    metadata$classoption <- "doc,a4paper"
+    metadata$classoption <- "doc,a4paper,twoside"
   }
 
   if(is.null(metadata$floatsintext) || isTRUE(metadata$floatsintext)) {
@@ -256,12 +290,9 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   after_body_includes <- NULL
   before_body_includes <- NULL
 
-  if(!is.null(metadata$keywords) || !is.null(metadata$wordcount)) {
-    keywords <- paste(unlist(metadata$keywords), collapse = ", ")
-    if(!is.null(metadata$wordcount)) {
-      keywords <- paste0(keywords, "\\newline\\indent Word count: ", metadata$wordcount)
-    }
-    header_includes <- c(header_includes, paste0("\\keywords{", keywords, "}"))
+  if(!is.null(metadata$charcount)) {
+    charcount <- paste0("\\newline\\indent Zeichenzahl: ", metadata$charcount)
+    header_includes <- c(header_includes, paste0("\\keywords{", charcount, "}"))
   }
 
   ## Additional options
@@ -272,9 +303,15 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   # https://tex.stackexchange.com/questions/447006/lineno-package-in-latex-causes-warning-message
   header_includes <- c(header_includes, "\\usepackage{csquotes}")
 
-  if(!is.null(metadata$geometry)) {
-    header_includes <- c(header_includes, paste0("\\geometry{", metadata$geometry, "}\n\n"))
+  if(is.null(metadata$geometry)) {
+    metadata$geometry <- "a4paper, inner=1.5in, outer=1in, top=1in, bottom=1in"
   }
+  header_includes <- c(header_includes, paste0("\\geometry{", metadata$geometry, "}\n\n"))
+
+  if(is.null(metadata$linestretch)) {
+    metadata$linestretch <- 1.15
+  }
+  header_includes <- c(header_includes, paste0("\\setstretch{", metadata$linestretch, "}\n\n"))
 
   tmp_includes_file <- function(x) {
     tmp_file <- tempfile(pattern = "includes_", tmpdir = tempdir(), fileext = ".tex")
@@ -286,6 +323,9 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   if(length(header_includes) > 0) {
     args <- c(args, "--include-in-header", tmp_includes_file(header_includes))
   }
+
+  # Put TOC on separate page
+  before_body_includes <- c(before_body_includes, "\\clearpage")
 
   before_body_includes <- c(before_body_includes, metadata$`before-includes`)
   if(length(before_body_includes) > 0) {
