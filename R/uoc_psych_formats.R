@@ -54,6 +54,15 @@ uoc_psych_pdf <- function(
 
   includes$in_header <- c(includes$in_header, apathe_header_includes)
 
+  apathe_after_body_includes <- system.file(
+    "rmarkdown", "templates", "uoc-psych", "resources"
+    , "uoc_psych_after_body_includes.tex"
+    , package = "apathe"
+  )
+  if(apathe_after_body_includes == "") stop("LaTeX after body includes file not found.")
+
+  includes$after_body <- c(includes$after_body, apathe_after_body_includes)
+
   if(is.null(md_extensions) || !grepl("raw\\_attribute", md_extensions)) {
     md_extensions <- paste0(md_extensions, "+raw_attribute")
   }
