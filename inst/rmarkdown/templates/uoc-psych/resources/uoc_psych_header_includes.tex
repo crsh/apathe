@@ -42,17 +42,17 @@
   {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
 \makeatother
 
-\makeatletter
-\usepackage{etoolbox}
-\patchcmd{\maketitle}
-  {\section{\normalfont\normalsize\abstractname}}
-  {\section*{\normalfont\normalsize\abstractname}}
-  {}{\typeout{Failed to patch abstract.}}
-\patchcmd{\maketitle}
-  {\section{\protect\normalfont{\@title}}}
-  {\section*{\protect\normalfont{\@title}}}
-  {}{\typeout{Failed to patch title.}}
-\makeatother
+% \makeatletter
+% \usepackage{etoolbox}
+% \patchcmd{\maketitle}
+%   {\section{\normalfont\normalsize\abstractname}}
+%   {\section*{\normalfont\normalsize\abstractname}}
+%   {}{\typeout{Failed to patch abstract.}}
+% \patchcmd{\maketitle}
+%   {\section{\protect\normalfont{\@title}}}
+%   {\section*{\protect\normalfont{\@title}}}
+%   {}{\typeout{Failed to patch title.}}
+% \makeatother
 
 \usepackage{xpatch}
 \makeatletter
@@ -63,19 +63,16 @@
   }
 {}{\PatchFailed}
 
-% Add page break after TOC
-\let\tableofcontentsORIG\tableofcontents
-\renewcommand\tableofcontents{\tableofcontentsORIG\clearpage}
-
-% The left pages are moved 0.5cm to the left and the right pages 0.5cm to the right so the document can be bound as a book
-% \addtolength\oddsidemargin {0.5cm}
-% \addtolength\evensidemargin {-0.5cm}
+% % Add page break after TOC
+% \let\tableofcontentsORIG\tableofcontents
+% \renewcommand\tableofcontents{\tableofcontentsORIG\clearpage}
 
 % Running head settings so page numbers are displayed on the left/ right side of the page. I am not sure all settings are neccesary here but this worked for me.
 \fancyheadoffset[L]{0pt}  
-\fancyhf{}
+% \fancyhf{}
+\fancyhead[RE]{}
+\fancyhead[LO]{\theshorttitle}
 \fancyhead[RO,LE]{\small\thepage} 
-\renewcommand{\headrulewidth}{0pt}
 
 % Don't break footnotes across pages
 \interfootnotelinepenalty=10000
@@ -87,16 +84,21 @@
 \usepackage{pbox}
 \renewcommand{\maketitle}{
   \@ifundefined{hrm}{}{\hrm}
+  \@ifundefined{@author}{\let\theauthor{}}{\let\theauthor\@author}
+  \@ifundefined{@shorttitle}{\let\theshorttitle{}}{\let\theshorttitle\@shorttitle}
   \thispagestyle{empty}
+
 
   \noindent \pbox{0.25\textwidth}{%
     \includegraphics*[scale=0.06]{inst/rmarkdown/templates/uoc-psych/resources/uoc_logo.pdf}%
   } \hfill %
   \pbox{0.5\textwidth}{%
-    \textbf{SEMESTER}\\
-    \textbf{FACH}\\
-    \textbf{KURS}\\
-    \textbf{GUTACHTER*IN}
+    \setstretch{1.15}
+    \semester\\
+    \degree\\
+    \module\\
+    \course\\
+    \@ifundefined{advisor}{}{\advisor}
   }
 
   \begin{center}
@@ -105,76 +107,62 @@
   \vspace{1cm}
   \textbf{\LARGE \@author} \\
   \vspace{0.5cm}
-  \textbf{MATRIKELNUMMER} \\
-  \textbf{E-MAIL} \vfill
+  \studentsemester \\
+  \studentid \\
+  \smail \vfill
 
   \@ifundefined{@note}
     {}
     {\@note \vfill}
  
-  \pbox{0.45\textwidth}{Tag der Abgabe: \textbf{ABGABEDATUM}} \hfill%
-  \pbox{0.45\textwidth}{Köln, den \textbf{DATUM HEUTE}}
+  \pbox{0.45\textwidth}{Tag der Abgabe: \@ifundefined{thedate}{\today}{\thedate}} \hfill%
+  \pbox{0.45\textwidth}{\place, den \@ifundefined{thedate}{\today}{\thedate}}
   \end{center}
 
   \clearpage\mbox{}\thispagestyle{empty}\clearpage
-  \setcounter{page}{1}
+  \setcounter{page}{3}
+
+  \@ifundefined{@acks}
+    {}
+    {%
+      % \vfill%
+      % \begin{center}%
+      %     \acksname%
+      % \end{center}%
+      % \protect\raggedright
+      % \setlength{\parindent}{0.4in}
+      \vspace*{4cm}
+      \noindent\@acks\par%
+    }
+
+  \clearpage
+  
+  %BDB\hyphenpenalty 10000
+  \fussy
+  \@ifundefined{@abstract}{}{%
+    \section{\abstractname}% BDB
+    \noindent\@abstract\par% BDB
+    \@ifundefined{charcount}{}{%
+      \setlength{\parindent}{0.4in}% BDB
+      \indent Zeichenanzahl: \charcount%
+    }%
+    \newpage
+  }
+
+  {
+  \setcounter{tocdepth}{2}
+  \tableofcontents
+  }
+  \clearpage
+
+  \section[Einleitung]{\@title}
+  \raggedright%
+  \setlength{\parindent}{0.4in}%
+  % \noindent%
 }
 
-
-% \renewcommand{\maketitle}{
-%   \@ifundefined{hrm}{}{\hrm}
-%   \check@author
-%     \begin{center}
-%     \vspace*{0.5in}
-
-%     \vspace*{1in}
-%     \@title%
-%     \ifapamodeman{%
-%       \@ifundefined{def@noextraspace}{%
-%         \vspace{0.25in}\\
-%       }{}
-%     }{%
-%       \vspace{0.25in}\\
-%     }
-
-%     \@author \\
-
-%     \@affil \vspace{0.25in} \\ 
-    
-%     \@ifundefined{@note}
-%     {\vspace*{\baselineskip} }
-%     {\@note}
-%     \end{center}
-
-%     \@ifundefined{@acks}
-%     {}
-%     {%
-%       \vfill%
-%       \begin{center}%
-%           \acksname%
-%       \end{center}%
-%       \protect\raggedright
-%       \setlength{\parindent}{0.4in}
-%       \indent\par\@acks%
-%     }
-
-%     \clearpage
-%     %BDB\hyphenpenalty 10000
-%     \fussy
-%     \@ifundefined{@abstract}{}{%
-%       \section{\normalfont\normalsize\abstractname}% BDB
-%       \noindent\@abstract\par% BDB
-%       \@ifundefined{@keywords}{}{%
-%         \setlength{\parindent}{0.4in}% BDB
-%         \indent%
-%       }%
-%       \newpage
-%     }
-
-%     \@ifundefined{def@donotrepeattitle}{
-%       \section{\protect\normalfont{\@title}}
-%     }{}%
-%     \raggedright%
-%     \setlength{\parindent}{0.4in}%
-%   %  \indent%
-% }
+% No indentation of first paragraph
+\makeatletter
+\b@level@one@skip=-2.5ex plus -1ex minus -.2ex
+\b@level@two@skip=-2.5ex plus -1ex minus -.2ex
+\makeatother

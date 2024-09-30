@@ -29,7 +29,7 @@
 uoc_psych_pdf <- function(
   fig_caption = TRUE
   , number_sections = FALSE
-  , toc = TRUE
+  # , toc = TRUE
   , keep_tex = TRUE
   , md_extensions = NULL
   , includes = NULL
@@ -37,7 +37,7 @@ uoc_psych_pdf <- function(
 ) {
   assertthat::is.flag(fig_caption)
   assertthat::is.flag(number_sections)
-  assertthat::is.flag(toc)
+  # assertthat::is.flag(toc)
   assertthat::is.flag(keep_tex)
   if(!is.null(includes)) {
     assertthat::is.list(includes)
@@ -45,7 +45,7 @@ uoc_psych_pdf <- function(
     includes <- rmarkdown::includes()
   }
 
-  apathe_header_includes <-  system.file(
+  apathe_header_includes <- system.file(
     "rmarkdown", "templates", "uoc-psych", "resources"
     , "uoc_psych_header_includes.tex"
     , package = "apathe"
@@ -71,7 +71,8 @@ uoc_psych_pdf <- function(
   config <- bookdown::pdf_document2(
     fig_caption = fig_caption
     , number_sections = number_sections
-    , toc = toc
+    , toc = FALSE
+    # , toc = toc
     , keep_tex = keep_tex
     , md_extensions = md_extensions
     , includes = includes
@@ -299,10 +300,34 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   after_body_includes <- NULL
   before_body_includes <- NULL
 
-  if(!is.null(metadata$charcount)) {
-    charcount <- paste0("\\newline\\indent Zeichenzahl: ", metadata$charcount)
-    header_includes <- c(header_includes, paste0("\\keywords{", charcount, "}"))
+  define_latex_variable <- function(x, field, default, includes, redefine = FALSE) {
+    if(redefine) {
+      command <- "renewcommand"
+    } else {
+      command <- "providecommand"
+    }
+    
+    if(!is.null(field)) {
+      value  <- field
+    } else {
+      value  <- default
+    }
+
+    includes <- c(includes, paste0("\\", command, "{\\", x, "}{", value, "}"))
+    includes
   }
+
+  header_includes <- define_latex_variable("charcount", field = metadata$charcount, default = "88.000--100.000", header_includes)
+  header_includes <- define_latex_variable("advisor", metadata$advisor, default = "Betreuer*in?", header_includes)
+  header_includes <- define_latex_variable("studentsemester", paste("Fachsemester", metadata$author[[1]]$semester), default = "Fachsemester?", header_includes)
+  header_includes <- define_latex_variable("studentid", metadata$author[[1]]$`student-id`, default = "Matrikelnummer?", header_includes)
+  header_includes <- define_latex_variable("smail", metadata$author[[1]]$email, default = "smail@uni-koeln.de", header_includes)
+  header_includes <- define_latex_variable("place", metadata$place, default = "Köln", header_includes)
+  header_includes <- define_latex_variable("thedate", metadata$date, default = format(Sys.Date(), "%d.%m.%Y"), header_includes)
+  header_includes <- define_latex_variable("semester", metadata$semester, default = "Semester?", header_includes)
+  header_includes <- define_latex_variable("degree", metadata$author[[1]]$degree, default = "Studiengang?", header_includes)
+  header_includes <- define_latex_variable("course", metadata$course, default = NULL, header_includes)
+  header_includes <- define_latex_variable("module", metadata$module, default = NULL, header_includes)
 
   ## Additional options
   if(isTRUE(metadata$linenumbers) ) {
@@ -318,7 +343,7 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   header_includes <- c(header_includes, paste0("\\geometry{", metadata$geometry, "}\n\n"))
 
   if(is.null(metadata$linestretch)) {
-    metadata$linestretch <- 1.15
+    metadata$linestretch <- 1.5
   }
   header_includes <- c(header_includes, paste0("\\setstretch{", metadata$linestretch, "}\n\n"))
 
@@ -333,8 +358,8 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
     args <- c(args, "--include-in-header", tmp_includes_file(header_includes))
   }
 
-  # Put TOC on separate page
-  before_body_includes <- c(before_body_includes, "\\clearpage")
+  # # Put TOC on separate page
+  # before_body_includes <- c(before_body_includes, "\\clearpage")
 
   before_body_includes <- c(before_body_includes, metadata$`before-includes`)
   if(length(before_body_includes) > 0) {

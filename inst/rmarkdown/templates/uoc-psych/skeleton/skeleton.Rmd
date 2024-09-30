@@ -3,18 +3,33 @@ title             : "The title"
 shorttitle        : "Title"
 
 author: 
-  - name          : "First Author"
+  - name          : "Henry Gustav Molaison"
+    student-id    : 123456
     email         : "my@email.com"
-    student-id    : "123456"
+    degree        : "BSc. Psychologie"
+    semester      : 6
 
+course            : "Bachelor Thesis"
+module            : "Modul 6"
+semester          : "Wintersemester 24/25"
 advisor           : "Ernst-August Dölle"
-date              : "`r Sys.Date()`"
+
+place             : "Polo Alto"
+date              : "`r format(Sys.Date(), '%d.%m.%Y')`"
+
+note: |
+  Abschlussarbeit zur Erlangung des
+  
+  **BSc. Psychologie**
+  
+  Humanwissenschaftlichen Fakultät der Universität zu Köln
 
 authornote: |
-  Enter author note here. Each new line herein must be indented, like this line.
+  Enter your acknowledgements here. Each new line herein must be indented, like this line.
+
+  This is the second paragraph.
 
 abstract: |
-  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
   Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
   One sentence clearly stating the **general problem** being addressed by  this particular study.
   One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
@@ -23,8 +38,7 @@ abstract: |
   Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
   
   <!-- https://tinyurl.com/ybremelq -->
-  
-keywords          : "keywords"
+
 charcount         : "88.000--100.000"
 
 bibliography      : ["r-references.bib"]

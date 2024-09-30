@@ -76,7 +76,7 @@ function Pandoc (document)
   local blocks = document.blocks
 
   if not meta.shorttitle or meta.shorttitle == nil or meta.shorttitle[1] == nil then
-    meta.shorttitle = pandoc.MetaInlines(List:new{pandoc.Str"SHORT", pandoc.Space(), pandoc.Str"TITLE"})
+    meta.shorttitle = pandoc.MetaInlines(List:new{pandoc.Space()})
   end
 
   -- Append additional Latex environments
