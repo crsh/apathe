@@ -1,0 +1,145 @@
+apathe: American Psychological Association Thesis<br />with R Markdown
+================
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+[![CRAN/METACRAN](https://img.shields.io/cran/v/apathe?label=CRAN&logo=r)](https://cran.r-project.org/package=apathe)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+![GitHub last commit
+(main)](https://img.shields.io/github/last-commit/crsh/apathe/main?label=Last%20commit&logo=github)
+[![R-CMD-check](https://github.com/crsh/apathe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crsh/apathe/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/crsh/apathe/branch/master/graph/badge.svg)](https://app.codecov.io/gh/crsh/apathe)
+[![GitHub bug
+issues](https://img.shields.io/github/issues/crsh/apathe/bug?label=Bugs&logo=github)](https://github.com/crsh/apathe/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+
+**apathe** is an R package that facilitates writing computationally
+reproducible student theses that conform to the American Psychological
+Association (APA) manuscript guidelines (6th Edition). The package
+provides an [R Markdown](https://rmarkdown.rstudio.com/) template that
+can be used with (or without) [RStudio](https://posit.co/) to create PDF
+documents (using the [apa6](http://www.ctan.org/pkg/apa6) LaTeX class).
+**apathe** is built on top of the package
+[**papaja**](https://github.com/crsh/papaja) but is tailored to the
+specific requirements of student theses and omits some features for
+simplicity.
+
+If you believe you have found a bug or would like to request a new
+feature, [open an issue](https://github.com/crsh/apathe/issues) on
+Github and provide a [minimal complete verifiable
+example](https://stackoverflow.com/help/minimal-reproducible-example).
+
+## Example
+
+TBD
+
+## Installation
+
+To use **apathe** you need either a recent version of
+[RStudio](https://posit.co/) or [pandoc](https://pandoc.org/). You
+additionally need a [TeX](https://en.wikipedia.org/wiki/TeX)
+distribution; we recommend you use
+[TinyTex](https://yihui.org/tinytex/), which can be installed from
+within R:
+
+``` r
+if(!requireNamespace("tinytex", quietly = TRUE)) install.packages("tinytex")
+
+tinytex::install_tinytex()
+```
+
+Using other TeX distributions is possible. Please refer to the
+[**papaja**
+manual](https://frederikaust.com/papaja_man/introduction.html#getting-started)
+for detailed installation instructions.
+
+**apathe** is not yet available on CRAN but you can install it from this
+GitHub repository:
+
+``` r
+# Install remotes package if necessary
+if(!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+
+# Install the stable development version from GitHub
+remotes::install_github("crsh/apathe")
+```
+
+## Usage
+
+Once **apathe** is installed, you can select the APA-style thesis
+template when creating a new R Markdown file through the RStudio menus.
+
+<figure>
+<img src="inst/images/template_selection.png"
+alt="APA template selection dialog" />
+<figcaption aria-hidden="true">APA template selection
+dialog</figcaption>
+</figure>
+
+To add citations, specify your bibliography-file in the YAML front
+matter of the document (`bibliography: my.bib`) and start citing (for
+details, see pandoc manual on the [citeproc
+extension](https://pandoc.org/MANUAL.html#extension-citations). You may
+also be interested in [**citr**](https://github.com/crsh/citr), an R
+Studio addin to swiftly insert Markdown citations and [R Studio’s visual
+editor](https://rstudio.github.io/visual-markdown-editing/), which also
+enables swiftly [inserting
+citations](https://rstudio.github.io/visual-markdown-editing/citations.html).
+
+### Reporting analysis results
+
+**papaja** provides
+
+- Functions to **typeset** the results from **statistical analyses**,
+- functions to create **tables**, and
+- functions to create **figures** in accordance with APA guidelines.
+
+For a comprehensive introduction to **papaja**, see the
+[README](https://github.com/crsh/papaja) or the current draft of the
+[manual](https://frederikaust.com/papaja_man/).
+
+## Citation
+
+Please cite **apathe** if you use it.
+
+    Aust, F. (2024). apathe: American Psychological Association Thesis with R Markdown. R package version 0.0.0.9000. Retrieved from https://github.com/crsh/apathe
+
+For convenience, you can [use
+`cite_r()`](https://frederikaust.com/papaja_man/writing.html#citing-r-and-its-packages)
+or copy the reference information returned by `citation('apathe')` to
+your BibTeX file:
+
+``` bibtex
+
+@Manual{,
+  title = {{apathe}: {American} American Psychological Association Thesis with {R Markdown}},
+  author = {Frederik Aust},
+  year = {2024},
+  note = {R package version 0.0.0.9000},
+  url = {https://github.com/crsh/apathe},
+}
+```
+
+## Contribute
+
+[![GitHub help wanted
+issues](https://img.shields.io/github/issues/crsh/apathe/help%20wanted?logo=github&logoColor=%2523FFF)](https://github.com/crsh/apathe/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
+[![GitHub documentation
+issues](https://img.shields.io/github/issues/crsh/apathe/documentation?logo=github&logoColor=%2523FFF)](https://github.com/crsh/apathe/issues?q=is%3Aopen+is%3Aissue+label%3Adocumentation)
+
+Like **apathe** and want to contribute? We highly appreciate any
+contributions to the R package or its documentation. Take a look at the
+[open issues](https://github.com/crsh/apathe/issues) if you need
+inspiration.
+
+### Code of Conduct
+
+Please note that the **apathe** project is released with a [Contributor
+Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+## Package dependencies
+
+![](README_files/figure-gfm/dep-plot-1.png)<!-- -->
