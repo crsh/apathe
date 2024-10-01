@@ -90,7 +90,7 @@
 
 
   \noindent \pbox{0.25\textwidth}{%
-    \includegraphics*[scale=0.06]{inst/rmarkdown/templates/uoc-psych/resources/uoc_logo.pdf}%
+    \@ifundefined{uoclogo}{}{\includegraphics*[scale=0.06]{\uoclogo}}%
   } \hfill %
   \pbox{0.5\textwidth}{%
     \setstretch{1.15}

@@ -92,7 +92,7 @@ uoc_psych_pdf <- function(
 
   ## Overwrite preprocessor to set CSL defaults
   saved_files_dir <- NULL
-
+  
   # Preprocessor functions are adaptations from the RMarkdown package
   # (https://github.com/rstudio/rmarkdown/blob/master/R/pdf_document.R)
   pre_processor <- function(metadata, input_file, runtime, knit_meta, files_dir, output_dir) {
@@ -317,17 +317,28 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
     includes
   }
 
-  header_includes <- define_latex_variable("charcount", field = metadata$charcount, default = "88.000--100.000", header_includes)
-  header_includes <- define_latex_variable("advisor", metadata$advisor, default = "Betreuer*in?", header_includes)
-  header_includes <- define_latex_variable("studentsemester", paste("Fachsemester", metadata$author[[1]]$semester), default = "Fachsemester?", header_includes)
+  # Define LaTeX variables
+  uoc_logo <- system.file(
+    "rmarkdown", "templates", "uoc-psych", "resources"
+    , "uoc_logo.pdf"
+    , package = "apathe"
+  )
+  header_includes <- define_latex_variable("uoclogo", NULL, default = uoc_logo, header_includes)
+
   header_includes <- define_latex_variable("studentid", metadata$author[[1]]$`student-id`, default = "Matrikelnummer?", header_includes)
+  header_includes <- define_latex_variable("studentsemester", paste("Fachsemester", metadata$author[[1]]$semester), default = "Fachsemester?", header_includes)
   header_includes <- define_latex_variable("smail", metadata$author[[1]]$email, default = "smail@uni-koeln.de", header_includes)
+  
   header_includes <- define_latex_variable("place", metadata$place, default = "Köln", header_includes)
   header_includes <- define_latex_variable("thedate", metadata$date, default = format(Sys.Date(), "%d.%m.%Y"), header_includes)
+  
   header_includes <- define_latex_variable("semester", metadata$semester, default = "Semester?", header_includes)
   header_includes <- define_latex_variable("degree", metadata$author[[1]]$degree, default = "Studiengang?", header_includes)
   header_includes <- define_latex_variable("course", metadata$course, default = NULL, header_includes)
   header_includes <- define_latex_variable("module", metadata$module, default = NULL, header_includes)
+  header_includes <- define_latex_variable("advisor", metadata$advisor, default = "Betreuer*in?", header_includes)
+  
+  header_includes <- define_latex_variable("charcount", field = metadata$charcount, default = "88.000--100.000", header_includes)
 
   ## Additional options
   if(isTRUE(metadata$linenumbers) ) {
