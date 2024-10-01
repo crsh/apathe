@@ -7,7 +7,6 @@
 uoc_psych_pdf(
   fig_caption = TRUE,
   number_sections = FALSE,
-  toc = TRUE,
   keep_tex = TRUE,
   md_extensions = NULL,
   includes = NULL,
@@ -18,8 +17,6 @@ uoc_psych_pdf(
 \item{fig_caption}{\code{TRUE} to render figures with captions}
 
 \item{number_sections}{\code{TRUE} to number section headings}
-
-\item{toc}{\code{TRUE} to include a table of contents in the output}
 
 \item{keep_tex}{Keep the intermediate tex file used in the conversion to PDF.
 Note that this argument does not control whether to keep the auxiliary
@@ -45,18 +42,39 @@ R Markdown output format to pass to \code{\link[rmarkdown:render]{rmarkdown::ren
 Template for theses in psychology at the University of Cologne in PDF format.
 }
 \details{
+This document template includes by default the logo of the University of
+Cologne, which is protected by copyright. We have explicit permission to
+distribute the logo with this template, but unauthorized use of the logo
+is restricted to "students for work and presentations in the context of
+their studies" or "cases where the University of Cologne acts as an
+organizer or originator":
+
+"\emph{The use of the university seal is permitted in cases where the
+University of Cologne acts as an organizer or originator. This regulation
+includes the use of the university seal by students for work and
+presentations in the context of their studies.}
+
+\emph{The use of the university seal by natural or legal persons outside the
+University of Cologne requires written permission and is only possible in
+cases where there is a sufficient connection to the University of Cologne.
+If permission is to be granted for advertising purposes, the interests
+of the University of Cologne must be given special consideration. The
+purpose, type, and extent of the permitted use must be specified in the
+permission. The permission must be in written form.}" (\href{https://kommunikation-marketing.uni-koeln.de/e135228/e136450/e136538/e136541/54_Rundschreiben_54_2012_ger.pdf}{Rundschreiben-Nr. 54/2012})
+
+You can use a different logo by setting the YAML option \code{logo} to the
+path of the logo file. The logo should be a PDF file.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{logo: 
+  file: "path/to/file.pdf"
+  scale: 0.5
+}\if{html}{\out{</div>}}
+
 When creating PDF documents the YAML option \code{classoption} is passed
 to the class options of the LaTeX apa6 document class. In this case,
 additional options are available. Refer to the \code{apa6} document class
 \href{ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/apa6/apa6.pdf}{documentation}
 to find out about class options such as paper size.
-
-Please refer to the \href{https://frederikaust.com/papaja_man/r-markdown-components.html#yaml-front-matter}{\pkg{papaja} online-manual}
-for additional information on available YAML front matter settings.
-
-When creating PDF documents the output device for figures defaults to
-\code{c("pdf", "png")}, so that each figure is saved in all four formats
-at a resolution of 300 dpi.
 }
 \seealso{
 \code{\link[bookdown:html_document2]{bookdown::pdf_document2()}}, \code{\link[bookdown:html_document2]{bookdown::word_document2()}}

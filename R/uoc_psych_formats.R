@@ -10,18 +10,41 @@
 #'   \code{\link[bookdown]{pdf_document2}} or
 #'   \code{\link[bookdown]{word_document2}}.
 #' @details
+#'   This document template includes by default the logo of the University of
+#'   Cologne, which is protected by copyright. We have explicit permission to
+#'   distribute the logo with this template, but unauthorized use of the logo
+#'   is restricted to "students for work and presentations in the context of 
+#'   their studies" or "cases where the University of Cologne acts as an 
+#'   organizer or originator":
+#' 
+#'   "*The use of the university seal is permitted in cases where the
+#'   University of Cologne acts as an organizer or originator. This regulation
+#'   includes the use of the university seal by students for work and
+#'   presentations in the context of their studies.*
+#'   
+#'   *The use of the university seal by natural or legal persons outside the
+#'   University of Cologne requires written permission and is only possible in
+#'   cases where there is a sufficient connection to the University of Cologne.
+#'   If permission is to be granted for advertising purposes, the interests
+#'   of the University of Cologne must be given special consideration. The
+#'   purpose, type, and extent of the permitted use must be specified in the
+#'   permission. The permission must be in written form.*" ([Rundschreiben-Nr. 54/2012](https://kommunikation-marketing.uni-koeln.de/e135228/e136450/e136538/e136541/54_Rundschreiben_54_2012_ger.pdf))
+#' 
+#'   You can use a different logo by setting the YAML option `logo` to the
+#'   path of the logo file. The logo should be a PDF file.
+#' 
+#'   ```
+#'   logo: 
+#'     file: "path/to/file.pdf"
+#'     scale: 0.5
+#'   ```
+#' 
 #'   When creating PDF documents the YAML option `classoption` is passed
 #'   to the class options of the LaTeX apa6 document class. In this case,
 #'   additional options are available. Refer to the `apa6` document class
 #'   \href{ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/apa6/apa6.pdf}{documentation}
 #'   to find out about class options such as paper size.
-#'
-#'   Please refer to the \href{https://frederikaust.com/papaja_man/r-markdown-components.html#yaml-front-matter}{\pkg{papaja} online-manual}
-#'   for additional information on available YAML front matter settings.
-#'
-#'   When creating PDF documents the output device for figures defaults to
-#'   \code{c("pdf", "png")}, so that each figure is saved in all four formats
-#'   at a resolution of 300 dpi.
+#' 
 #' @return R Markdown output format to pass to [rmarkdown::render()].
 #' @seealso [bookdown::pdf_document2()], [bookdown::word_document2()]
 #' @export
@@ -86,7 +109,7 @@ uoc_psych_pdf <- function(
   config$knitr$opts_knit$rmarkdown.pandoc.to <- "latex"
   config$knitr$knit_hooks$inline <- inline_numbers
 
-  config$knitr$opts_chunk$dev <- c("pdf", "png") # , "postscript", "tiff"
+  config$knitr$opts_chunk$dev <- "pdf"
   config$knitr$opts_chunk$dpi <- 300
   config$clean_supporting <- FALSE # Always keep images files
 
@@ -323,7 +346,8 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
     , "uoc_logo.pdf"
     , package = "apathe"
   )
-  header_includes <- define_latex_variable("uoclogo", NULL, default = uoc_logo, header_includes)
+  header_includes <- define_latex_variable("logofile", metadata$logo$file, default = uoc_logo, header_includes)
+  header_includes <- define_latex_variable("logoscale", metadata$logo$scale, default = 0.06, header_includes)
 
   header_includes <- define_latex_variable("studentid", metadata$author[[1]]$`student-id`, default = "Matrikelnummer?", header_includes)
   header_includes <- define_latex_variable("studentsemester", paste("Fachsemester", metadata$author[[1]]$semester), default = "Fachsemester?", header_includes)
