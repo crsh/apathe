@@ -8,6 +8,8 @@ author:
 
 course            : "CDA"
 
+bibliography      : ["__from_DOI.bib", "r-references.bib"]
+
 output            : apathe::uoc_psych_homework_pdf
 ---
 
@@ -29,6 +31,8 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 ...
 
+
+I used `r cite_r("r-references.bib")` for all our analyses.
 
 # References
 
