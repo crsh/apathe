@@ -1,9 +1,9 @@
 ---
 title             : "The title"
-shorttitle        : "Title"
+shorttitle        : "Short title"
 
 author: 
-  - name          : "Henry Gustav Molaison"
+  - name          : "Michele Muster"
     student-id    : 123456
     email         : "my@email.com"
     degree        : "BSc. Psychologie"
@@ -14,7 +14,7 @@ module            : "Modul 6"
 semester          : "Wintersemester 24/25"
 advisor           : "Ernst-August Dölle"
 
-place             : "Polo Alto"
+place             : "Köln"
 date              : "`r format(Sys.Date(), '%d.%m.%Y')`"
 
 note: |
@@ -43,7 +43,7 @@ charcount         : "88.000--100.000"
 
 bibliography      : ["r-references.bib"]
 
-output            : apathe::uoc_psych_pdf
+output            : apathe::uoc_psych_thesis_pdf
 ---
 
 ```{r}

@@ -46,10 +46,10 @@
 #'   to find out about class options such as paper size.
 #' 
 #' @return R Markdown output format to pass to [rmarkdown::render()].
-#' @seealso [bookdown::pdf_document2()], [bookdown::word_document2()]
+#' @seealso [uoc_psych_homework_pdf], [bookdown::pdf_document2()], [bookdown::word_document2()]
 #' @export
 
-uoc_psych_pdf <- function(
+uoc_psych_thesis_pdf <- function(
   fig_caption = TRUE
   , number_sections = FALSE
   # , toc = TRUE
@@ -69,8 +69,8 @@ uoc_psych_pdf <- function(
   }
 
   apathe_header_includes <- system.file(
-    "rmarkdown", "templates", "uoc-psych", "resources"
-    , "uoc_psych_header_includes.tex"
+    "rmarkdown", "templates", "uoc-psych-thesis", "resources"
+    , "uoc_psych_thesis_header_includes.tex"
     , package = "apathe"
   )
   if(apathe_header_includes == "") stop("LaTeX header includes file not found.")
@@ -78,8 +78,8 @@ uoc_psych_pdf <- function(
   includes$in_header <- c(includes$in_header, apathe_header_includes)
 
   apathe_after_body_includes <- system.file(
-    "rmarkdown", "templates", "uoc-psych", "resources"
-    , "uoc_psych_after_body_includes.tex"
+    "rmarkdown", "templates", "uoc-psych-thesis", "resources"
+    , "uoc_psych_thesis_after_body_includes.tex"
     , package = "apathe"
   )
   if(apathe_after_body_includes == "") stop("LaTeX after body includes file not found.")
@@ -122,7 +122,7 @@ uoc_psych_pdf <- function(
     # save files dir (for generating intermediates)
     saved_files_dir <<- files_dir
 
-    args <- pdf_pre_processor(metadata, input_file, runtime, knit_meta, files_dir, output_dir)
+    args <- thesis_pdf_pre_processor(metadata, input_file, runtime, knit_meta, files_dir, output_dir)
 
     # Set citeproc = FALSE by default to invoke ampersand filter
     if(
@@ -138,7 +138,7 @@ uoc_psych_pdf <- function(
 
   post_processor <- function(metadata, input_file, output_file, clean, verbose) {
 
-    output_text <- readLines(output_file, encoding = "UTF-8")
+    output_text <- readLines_utf8(output_file)
 
     # Correct abstract and note environment
     ## Note is added to the end of the document by Lua filter and needs to be
@@ -175,9 +175,7 @@ uoc_psych_pdf <- function(
     output_text <- gsub("\\\\usepackage\\[?.*\\]?\\{geometry\\}", "", output_text, useBytes = TRUE)
 
 
-    output_file_connection <- file(output_file)
-    on.exit(close(output_file_connection))
-    writeLines(output_text, output_file_connection, useBytes = TRUE)
+    writeLines_utf8(output_text, output_file)
 
     # Apply bookdown postprocesser and pass format options
     bookdown_post_processor <- bookdown::pdf_document2()$post_processor
@@ -194,63 +192,7 @@ uoc_psych_pdf <- function(
   config
 }
 
-
-# Set hook to print default numbers
-inline_numbers <- function (x) {
-
-  if(inherits(x, "difftime")) x <- as.numeric(x)
-  if(is.numeric(x)) {
-    printed_number <- ifelse(
-      x == round(x)
-      , as.character(x)
-      , papaja::apa_num(x)
-    )
-    n <- length(printed_number)
-    if(n == 1) {
-      printed_number
-    } else if(n == 2) {
-      paste(printed_number, collapse = " and ")
-    } else if(n > 2) {
-      paste(paste(printed_number[1:(n - 1)], collapse = ", "), printed_number[n], sep = ", and ")
-    }
-  } else if(is.integer(x)) {
-    x <- papaja::apa_num(x, numerals = x > 10)
-  } else if(is.character(x)) {
-    x
-  } else {
-    paste(as.character(x), collapse = ', ')
-  }
-}
-
-
-# Preprocessor functions are adaptations from the RMarkdown package
-# (https://github.com/rstudio/rmarkdown/blob/master/R/pdf_document.R)
-
-set_default_csl <- function(x, version, metadata) {
-  # Use APA6 CSL citations template if no other file is supplied
-  has_csl <- function(text) {
-    length(grep("^csl\\s*:.*$", text)) > 0
-  }
-
-  flavor <- list(NULL, "annotated")[[(!is.null(metadata$annotate_references) && metadata$annotate_references) + 1]]
-  flavor <- c(
-    flavor
-    , list("no-disambiguation", NULL)[[(is.null(metadata$disambiguate_authors) || metadata$disambiguate_authors) + 1]]
-  )
-
-  csl_variant <- paste(c(paste0("apa", version), flavor), collapse = "-")
-
-  if (!has_csl(readLines(x, warn = FALSE))) {
-    csl_template <- system.file(
-      "rmd", paste0(csl_variant, ".csl")
-      , package = "papaja"
-    )
-    if(csl_template == "") stop("No CSL template file found.")
-    return(c("--csl", rmarkdown::pandoc_path_arg(csl_template)))
-  } else NULL
-}
-
-pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_dir, output_dir) {
+thesis_pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_dir, output_dir) {
 
   # Add pandoc arguments
   args <- NULL
@@ -323,26 +265,9 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   after_body_includes <- NULL
   before_body_includes <- NULL
 
-  define_latex_variable <- function(x, field, default, includes, redefine = FALSE) {
-    if(redefine) {
-      command <- "renewcommand"
-    } else {
-      command <- "providecommand"
-    }
-    
-    if(!is.null(field)) {
-      value  <- field
-    } else {
-      value  <- default
-    }
-
-    includes <- c(includes, paste0("\\", command, "{\\", x, "}{", value, "}"))
-    includes
-  }
-
   # Define LaTeX variables
   uoc_logo <- system.file(
-    "rmarkdown", "templates", "uoc-psych", "resources"
+    "rmarkdown", "templates", "uoc-psych-thesis", "resources"
     , "uoc_logo.pdf"
     , package = "apathe"
   )
@@ -393,9 +318,6 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
     args <- c(args, "--include-in-header", tmp_includes_file(header_includes))
   }
 
-  # # Put TOC on separate page
-  # before_body_includes <- c(before_body_includes, "\\clearpage")
-
   before_body_includes <- c(before_body_includes, metadata$`before-includes`)
   if(length(before_body_includes) > 0) {
     args <- c(args, "--include-before", tmp_includes_file(before_body_includes))
@@ -404,23 +326,7 @@ pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, files_di
   after_body_includes <- c(after_body_includes, metadata$`after-includes`)
   if(length(after_body_includes) > 0) {
     args <- c(args, "--include-after", tmp_includes_file(after_body_includes))
-
   }
 
   args
-}
-
-
-#' @keywords internal
-
-readLines_utf8 <- function(con) {
-  if(is.character(con)) {
-    con <- file(con, encoding = "utf8")
-    on.exit(close(con))
-  } else if(inherits(con, "connection")) {
-    stop("If you want to use an already existing connection, you should use readLines(), directly.")
-  }
-  y <- try(readLines(con, encoding = "bytes"))
-  if(inherits(y, "try-error")) stop("Reading from file ", encodeString(summary(con)$description, quote = "'"), " failed.")
-  y
 }

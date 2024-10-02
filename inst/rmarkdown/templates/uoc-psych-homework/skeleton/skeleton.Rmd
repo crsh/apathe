@@ -1,0 +1,36 @@
+---
+title             : "CDA Hausaufgabe 1"
+
+author: 
+  - name          : "Michele Muster"
+    student-id    : 1234567
+    email         : "mmuster3@smail.uni-koeln.com"
+
+course            : "CDA"
+
+output            : apathe::uoc_psych_homework_pdf
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library("papaja")
+library("apathe")
+r_refs("r-references.bib")
+
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+
+# Aufgabe 1
+
+...
+
+
+# References
+
+:::{#refs}
+:::

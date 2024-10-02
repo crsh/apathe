@@ -1,0 +1,88 @@
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+\makeatother
+
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
+% Redefine header and remove short title
+\fancyhead[L]{} 
+\fancyhead[R]{\small\thepage} 
+
+% Load to adjust linespacing
+\usepackage{setspace}
+
+% Custom title page
+\usepackage{pbox}
+
+\makeatletter
+\renewcommand{\maketitle}{
+  % \@ifundefined{hrm}{}{\hrm}
+  \thispagestyle{empty}
+
+  \noindent \pbox{0.25\textwidth}{%
+  \setstretch{1.2}
+  \textbf{\Large \@title}\\
+  \textbf{\@author}\\
+  } \hfill %
+  \pbox{0.5\textwidth}{%
+    \setstretch{1.15}
+    \course\\
+    \studentid\\
+    \smail\\
+    % \@ifundefined{advisor}{}{\advisor}
+  }
+  \vspace{0.25cm}
+  \hrule
+  \vspace{0.75cm}
+  \raggedright%
+  \setlength{\parindent}{0.4in}%
+  % \noindent%
+}
+\makeatother
+
+% No indentation of first paragraph
+\makeatletter
+\b@level@one@skip=-2.5ex plus -1ex minus -.2ex
+\b@level@two@skip=-2.5ex plus -1ex minus -.2ex
+\makeatother
+
+% Ensure that floats appear always after title section
+% This places floats below the current position or at the
+% top of the next page.
+\usepackage{flafter}
