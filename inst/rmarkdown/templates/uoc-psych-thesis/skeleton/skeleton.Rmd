@@ -41,7 +41,7 @@ abstract: |
 
 charcount         : "88.000--100.000"
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["r-references.bib", "__from_DOI.bib"]
 
 output            : apathe::uoc_psych_thesis_pdf
 ---
@@ -70,7 +70,12 @@ I report how I determined our sample size, all data exclusions (if any), all man
 ## Procedure
 
 ## Data analysis
-I used `r cite_r("r-references.bib")` for all our analyses.
+
+```{r}
+r_citations <- cite_r("r-references.bib", lang = "en-EN")
+```
+
+I used `r r_citations` for all our analyses.
 
 
 # Results

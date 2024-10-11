@@ -111,7 +111,7 @@ uoc_psych_thesis_pdf <- function(
 
   config$knitr$opts_chunk$dev <- "pdf"
   config$knitr$opts_chunk$dpi <- 300
-  config$clean_supporting <- FALSE # Always keep images files
+  # config$clean_supporting <- FALSE # Always keep images files
 
   ## Overwrite preprocessor to set CSL defaults
   saved_files_dir <- NULL
@@ -174,8 +174,9 @@ uoc_psych_thesis_pdf <- function(
     # Prevent (re-)loading of geometry package
     output_text <- gsub("\\\\usepackage\\[?.*\\]?\\{geometry\\}", "", output_text, useBytes = TRUE)
 
-
     writeLines_utf8(output_text, output_file)
+
+    rmdfiltr::replace_doi_citations(input_file, metadata$bibliography)
 
     # Apply bookdown postprocesser and pass format options
     bookdown_post_processor <- bookdown::pdf_document2()$post_processor
@@ -207,6 +208,8 @@ thesis_pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, f
       , metadata = metadata
     )
     csl_specified <- is.null(args)
+
+    args <- rmdfiltr::add_doi2cite_filter(args)
 
     ## Set ampersand filter
     if((is.null(metadata$replace_ampersands) || metadata$replace_ampersands)) {
