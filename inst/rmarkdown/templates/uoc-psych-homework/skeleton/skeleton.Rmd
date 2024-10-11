@@ -32,7 +32,7 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ...
 
 
-I used `r cite_r("r-references.bib")` for all our analyses.
+Für alle Analysen habe ich `r cite_r("r-references.bib", lang = "de-DE")` verwendet.
 
 # References
 
