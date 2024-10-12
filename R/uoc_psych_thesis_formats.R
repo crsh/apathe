@@ -176,7 +176,7 @@ uoc_psych_thesis_pdf <- function(
 
     writeLines_utf8(output_text, output_file)
 
-    rmdfiltr::replace_doi_citations(input_file, metadata$bibliography)
+    rmdfiltr::post_process_doi_citations(input_file, metadata$bibliography)
 
     # Apply bookdown postprocesser and pass format options
     bookdown_post_processor <- bookdown::pdf_document2()$post_processor
