@@ -14,6 +14,9 @@ Imports:
 Suggests:
     stringr,
     bibtex (>= 0.5.1)
+Remotes:  
+    crsh/papaja@7ccc40e,
+    crsh/rmdfiltr@6d780e7
 SystemRequirements: Rendering the document template requires
   pandoc (>= 2.0; https://pandoc.org) and for PDFs a TeX distribution,
   such as TinyTeX (>= 0.12; https://yihui.org/tinytex/)
