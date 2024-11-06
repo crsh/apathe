@@ -11,7 +11,7 @@ bibentry(
     , ". Retrieved from "
     , meta$URL
   )
-  , title = "{apathe}: {American} American Psychological Association Thesis with {R Markdown}"
+  , title = "{apathe}: {American} Psychological Association Thesis with {R Markdown}"
   , author = c(
     person("Frederik", "Aust")
   )
