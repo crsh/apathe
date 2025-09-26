@@ -35,7 +35,7 @@ uoc_psych_homework_pdf <- function(
   assertthat::is.flag(toc)
   assertthat::is.flag(keep_tex)
   if(!is.null(includes)) {
-    assertthat::is.list(includes)
+    assertthat::assert_that(is.list(includes))
   } else {
     includes <- rmarkdown::includes()
   }

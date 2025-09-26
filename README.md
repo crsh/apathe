@@ -30,10 +30,6 @@ feature, [open an issue](https://github.com/crsh/apathe/issues) on
 Github and provide a [minimal complete verifiable
 example](https://stackoverflow.com/help/minimal-reproducible-example).
 
-## Example
-
-TBD
-
 ## Installation
 
 To use **apathe** you need either a recent version of
@@ -70,40 +66,35 @@ remotes::install_github("crsh/apathe")
 Once **apathe** is installed, you can select the APA-style thesis
 template when creating a new R Markdown file through the RStudio menus.
 
-<figure>
-<img src="inst/images/template_selection.png"
-alt="APA template selection dialog" />
-<figcaption aria-hidden="true">APA template selection
-dialog</figcaption>
-</figure>
-
 To add citations, specify your bibliography-file in the YAML front
 matter of the document (`bibliography: my.bib`) and start citing (for
 details, see pandoc manual on the [citeproc
-extension](https://pandoc.org/MANUAL.html#extension-citations). You may
-also be interested in [**citr**](https://github.com/crsh/citr), an R
-Studio addin to swiftly insert Markdown citations and [R Studio’s visual
-editor](https://rstudio.github.io/visual-markdown-editing/), which also
-enables swiftly [inserting
-citations](https://rstudio.github.io/visual-markdown-editing/citations.html).
+extension](https://pandoc.org/MANUAL.html#extension-citations)).
+**apathe** supports DOI-based citations via the
+[`doi2cite`](https://github.com/korintje/pandoc-doi2cite/blob/main/doi2cite.lua)
+filter, see [**rmdfiltr**
+vignette](https://CRAN.R-project.org/package=rmdfiltr/vignettes/doi2cite.html).
+Any of the follow DOI tags can be used in the text:
 
-### Reporting analysis results
+- `@https://doi.org/`
+- `@doi.org/`
+- `@DOI:`
+- `@doi:`
 
-**papaja** provides
+For example, `@doi:10.1080/01621459.2025.2516210`. When the document is
+rendered, `doi2cite` queries CrossRef for the bibliographic information,
+writes it to a local BibTeX-file and replaces the citation key by the
+proper BibTeX key.
 
-- Functions to **typeset** the results from **statistical analyses**,
-- functions to create **tables**, and
-- functions to create **figures** in accordance with APA guidelines.
-
-For a comprehensive introduction to **papaja**, see the
-[README](https://github.com/crsh/papaja) or the current draft of the
-[manual](https://frederikaust.com/papaja_man/).
+This requires that the designated file `__from_DOI.bib` (it currently
+has to be this file name!) is added to the `bibliography` field of the
+YAML front matter
 
 ## Citation
 
 Please cite **apathe** if you use it.
 
-    Aust, F. (2024). apathe: American Psychological Association Thesis with R Markdown. R package version 0.0.0.9000. Retrieved from https://github.com/crsh/apathe
+    Aust, F. (2024). apathe: American Psychological Association Thesis with R Markdown. R package version 0.0.1. Retrieved from https://github.com/crsh/apathe
 
 For convenience, you can [use
 `cite_r()`](https://frederikaust.com/papaja_man/writing.html#citing-r-and-its-packages)
@@ -113,10 +104,10 @@ your BibTeX file:
 ``` bibtex
 
 @Manual{,
-  title = {{apathe}: {American} American Psychological Association Thesis with {R Markdown}},
+  title = {{apathe}: {American} Psychological Association Thesis with {R Markdown}},
   author = {Frederik Aust},
   year = {2024},
-  note = {R package version 0.0.0.9000},
+  note = {R package version 0.0.1},
   url = {https://github.com/crsh/apathe},
 }
 ```

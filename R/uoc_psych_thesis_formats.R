@@ -63,7 +63,7 @@ uoc_psych_thesis_pdf <- function(
   # assertthat::is.flag(toc)
   assertthat::is.flag(keep_tex)
   if(!is.null(includes)) {
-    assertthat::is.list(includes)
+    assertthat::assert_that(is.list(includes))
   } else {
     includes <- rmarkdown::includes()
   }
@@ -281,7 +281,7 @@ thesis_pdf_pre_processor <- function(metadata, input_file, runtime, knit_meta, f
   header_includes <- define_latex_variable("studentsemester", paste("Fachsemester", metadata$author[[1]]$semester), default = "Fachsemester?", header_includes)
   header_includes <- define_latex_variable("smail", metadata$author[[1]]$email, default = "smail@uni-koeln.de", header_includes)
   
-  header_includes <- define_latex_variable("place", metadata$place, default = "Köln", header_includes)
+  header_includes <- define_latex_variable("place", metadata$place, default = "K\u0246n", header_includes)
   header_includes <- define_latex_variable("thedate", metadata$date, default = format(Sys.Date(), "%d.%m.%Y"), header_includes)
   
   header_includes <- define_latex_variable("semester", metadata$semester, default = "Semester?", header_includes)

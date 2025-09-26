@@ -18,10 +18,6 @@ The package provides an [R Markdown](https://rmarkdown.rstudio.com/) template th
 
 If you believe you have found a bug or would like to request a new feature, [open an issue](https://github.com/crsh/apathe/issues) on Github and provide a [minimal complete verifiable example](https://stackoverflow.com/help/minimal-reproducible-example).
 
-## Example
-
-TBD
-
 ## Installation
 
 To use **apathe** you need either a recent version of [RStudio](https://posit.co/) or [pandoc](https://pandoc.org/).
@@ -38,7 +34,7 @@ Please refer to the [**papaja** manual](https://frederikaust.com/papaja_man/intr
 
 **apathe** is not yet available on CRAN but you can install it from this GitHub repository:
 
-```{r install_papapja, eval = FALSE}
+```{r install-apathe-github, eval = FALSE}
 # Install remotes package if necessary
 if(!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
 
@@ -50,20 +46,16 @@ remotes::install_github("crsh/apathe")
 
 Once **apathe** is installed, you can select the APA-style thesis template when creating a new R Markdown file through the RStudio menus.
 
-![APA template selection dialog](inst/images/template_selection.png)
+To add citations, specify your bibliography-file in the YAML front matter of the document (`bibliography: my.bib`) and start citing (for details, see pandoc manual on the [citeproc extension](https://pandoc.org/MANUAL.html#extension-citations)). **apathe** supports DOI-based citations via the [`doi2cite`](https://github.com/korintje/pandoc-doi2cite/blob/main/doi2cite.lua) filter, see [**rmdfiltr** vignette](https://CRAN.R-project.org/package=rmdfiltr/vignettes/doi2cite.html). Any of the follow DOI tags can be used in the text:
 
-To add citations, specify your bibliography-file in the YAML front matter of the document (`bibliography: my.bib`) and start citing (for details, see pandoc manual on the [citeproc extension](https://pandoc.org/MANUAL.html#extension-citations). You may also be interested in [**citr**](https://github.com/crsh/citr), an R Studio addin to swiftly insert Markdown citations and [R Studio's visual editor](https://rstudio.github.io/visual-markdown-editing/), which also enables swiftly [inserting citations](https://rstudio.github.io/visual-markdown-editing/citations.html).
+- `@https://doi.org/`
+- `@doi.org/`
+- `@DOI:`
+- `@doi:`
 
-### Reporting analysis results
+For example, `@doi:10.1080/01621459.2025.2516210`. When the document is rendered, `doi2cite` queries CrossRef for the bibliographic information, writes it to a local BibTeX-file and replaces the citation key by the proper BibTeX key.
 
-**papaja** provides
-
-- Functions to **typeset** the results from **statistical analyses**,
-- functions to create **tables**, and
-- functions to create **figures** in accordance with APA guidelines.
-
-For a comprehensive introduction to **papaja**, see the [README](https://github.com/crsh/papaja) or the current draft of the [manual](https://frederikaust.com/papaja_man/).
-
+This requires that the designated file `__from_DOI.bib` (it currently has to be this file name!) is added to the `bibliography` field of the YAML front matter
 
 ## Citation
 
