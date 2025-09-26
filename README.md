@@ -19,7 +19,7 @@ reproducible student theses that conform to the American Psychological
 Association (APA) manuscript guidelines (6th Edition). The package
 provides an [R Markdown](https://rmarkdown.rstudio.com/) template that
 can be used with (or without) [RStudio](https://posit.co/) to create PDF
-documents (using the [apa6](http://www.ctan.org/pkg/apa6) LaTeX class).
+documents (using the [apa6](https://www.ctan.org/pkg/apa6) LaTeX class).
 **apathe** is built on top of the package
 [**papaja**](https://github.com/crsh/papaja) but is tailored to the
 specific requirements of student theses and omits some features for

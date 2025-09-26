@@ -15,7 +15,8 @@ Imports:
     assertthat
 Suggests:
     stringr,
-    bibtex (>= 0.5.1)
+    bibtex (>= 0.5.1),
+    testthat (>= 3.0.0)
 SystemRequirements: Rendering the document template requires
   pandoc (>= 2.0; https://pandoc.org) and for PDFs a TeX distribution,
   such as TinyTeX (>= 0.12; https://yihui.org/tinytex/)
@@ -24,3 +25,4 @@ Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Config/testthat/edition: 3
