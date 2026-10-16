@@ -19,6 +19,22 @@
 #' 
 #' @return R Markdown output format to pass to [rmarkdown::render()].
 #' @seealso [uoc_psych_thesis_pdf], [bookdown::pdf_document2()], [bookdown::word_document2()]
+#' @examples \dontrun{
+#' # Render skeleton
+#' skeleton_path <- file.path(tempdir(), "homework_skeleton.Rmd")
+#' 
+#' rmarkdown::draft(
+#'   skeleton_path
+#'   , system.file(
+#'     "rmarkdown", "templates", "uoc-psych-homework"
+#'     , package = "apathe"
+#'   )
+#'   , create_dir = FALSE
+#'   , edit = FALSE
+#' )
+#' 
+#' rmarkdown::render(skeleton_path, quiet = TRUE)
+#' }
 #' @export
 
 uoc_psych_homework_pdf <- function(

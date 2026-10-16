@@ -4,10 +4,10 @@ test_that(
     skip_on_cran()
 
     # Render skeleton
-    bare_path <- file.path(tempdir(), "bare_skeleton.Rmd")
+    homework_path <- file.path(tempdir(), "homework_skeleton.Rmd")
 
     rmarkdown::draft(
-      bare_path
+      homework_path
       , system.file(
         "rmarkdown", "templates", "uoc-psych-homework"
         , package = "apathe"
@@ -16,11 +16,13 @@ test_that(
       , edit = FALSE
     )
 
-    try( rmarkdown::render(bare_path, quiet = TRUE) )
-    expect_true(file.exists(gsub("\\.Rmd", ".pdf", bare_path)))
+    try( rmarkdown::render(homework_path, quiet = TRUE) )
+    expect_true(file.exists(gsub("\\.Rmd", ".pdf", homework_path)))
+
+    thesis_path <- file.path(tempdir(), "thesis_skeleton.Rmd")
 
     rmarkdown::draft(
-      bare_path
+      thesis_path
       , system.file(
         "rmarkdown", "templates", "uoc-psych-thesis"
         , package = "apathe"
@@ -29,8 +31,7 @@ test_that(
       , edit = FALSE
     )
 
-    try( rmarkdown::render(bare_path, quiet = TRUE) )
-    expect_true(file.exists(gsub("\\.Rmd", ".pdf", bare_path)))
-
+    try( rmarkdown::render(thesis_path, quiet = TRUE) )
+    expect_true(file.exists(gsub("\\.Rmd", ".pdf", thesis_path)))
   }
 )

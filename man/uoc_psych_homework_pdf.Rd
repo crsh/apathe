@@ -52,6 +52,24 @@ additional options are available. Refer to the \code{apa6} document class
 \href{ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/apa6/apa6.pdf}{documentation}
 to find out about class options such as paper size.
 }
+\examples{
+\dontrun{
+# Render skeleton
+skeleton_path <- file.path(tempdir(), "homework_skeleton.Rmd")
+
+rmarkdown::draft(
+  skeleton_path
+  , system.file(
+    "rmarkdown", "templates", "uoc-psych-homework"
+    , package = "apathe"
+  )
+  , create_dir = FALSE
+  , edit = FALSE
+)
+
+rmarkdown::render(skeleton_path, quiet = TRUE)
+}
+}
 \seealso{
 \link{uoc_psych_thesis_pdf}, \code{\link[bookdown:html_document2]{bookdown::pdf_document2()}}, \code{\link[bookdown:html_document2]{bookdown::word_document2()}}
 }

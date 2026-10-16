@@ -60,7 +60,7 @@ cases where there is a sufficient connection to the University of Cologne.
 If permission is to be granted for advertising purposes, the interests
 of the University of Cologne must be given special consideration. The
 purpose, type, and extent of the permitted use must be specified in the
-permission. The permission must be in written form.}" (\href{https://kommunikation-marketing.uni-koeln.de/e135228/e136450/e136538/e136541/54_Rundschreiben_54_2012_ger.pdf}{Rundschreiben-Nr. 54/2012})
+permission. The permission must be in written form.}"
 
 You can use a different logo by setting the YAML option \code{logo} to the
 path of the logo file. The logo should be a PDF file.
@@ -75,6 +75,24 @@ to the class options of the LaTeX apa6 document class. In this case,
 additional options are available. Refer to the \code{apa6} document class
 \href{ftp://ftp.fu-berlin.de/tex/CTAN/macros/latex/contrib/apa6/apa6.pdf}{documentation}
 to find out about class options such as paper size.
+}
+\examples{
+\dontrun{
+# Render skeleton
+skeleton_path <- file.path(tempdir(), "thesis_skeleton.Rmd")
+
+rmarkdown::draft(
+  skeleton_path
+  , system.file(
+    "rmarkdown", "templates", "uoc-psych-thesis"
+    , package = "apathe"
+  )
+  , create_dir = FALSE
+  , edit = FALSE
+)
+
+rmarkdown::render(skeleton_path, quiet = TRUE)
+}
 }
 \seealso{
 \link{uoc_psych_homework_pdf}, \code{\link[bookdown:html_document2]{bookdown::pdf_document2()}}, \code{\link[bookdown:html_document2]{bookdown::word_document2()}}
