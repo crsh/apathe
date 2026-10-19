@@ -9,7 +9,7 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 ![GitHub last commit
 (main)](https://img.shields.io/github/last-commit/crsh/apathe/main?label=Last%20commit&logo=github)
-[![R-CMD-check](https://github.com/crsh/apathe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/crsh/apathe/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/crsh/apathe/actions/workflows/rhub.yaml/badge.svg)](https://github.com/crsh/apathe/actions/workflows/rhub.yaml)
 [![codecov](https://codecov.io/gh/crsh/apathe/branch/master/graph/badge.svg)](https://app.codecov.io/gh/crsh/apathe)
 [![GitHub bug
 issues](https://img.shields.io/github/issues/crsh/apathe/bug?label=Bugs&logo=github)](https://github.com/crsh/apathe/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
@@ -94,7 +94,7 @@ YAML front matter
 
 Please cite **apathe** if you use it.
 
-    Aust, F. (2024). apathe: American Psychological Association Thesis with R Markdown. R package version 0.0.1. Retrieved from https://github.com/crsh/apathe
+    Aust, F. (2025). apathe: American Psychological Association Thesis with R Markdown. R package version 0.1.0. Retrieved from https://github.com/crsh/apathe
 
 For convenience, you can [use
 `cite_r()`](https://frederikaust.com/papaja_man/writing.html#citing-r-and-its-packages)
@@ -106,8 +106,8 @@ your BibTeX file:
 @Manual{,
   title = {{apathe}: {American} Psychological Association Thesis with {R Markdown}},
   author = {Frederik Aust},
-  year = {2024},
-  note = {R package version 0.0.1},
+  year = {2025},
+  note = {R package version 0.1.0},
   url = {https://github.com/crsh/apathe},
 }
 ```
