@@ -59,15 +59,25 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
+<!-- To cite a source, enter its DOI like so: @doi:<Enter DOI here> (see example below)
+While knitting, the reference is automatically downloaded from the Crossref database.
+The bibliographic information is then stored in the file "__from_DOI.bib", and added to the Reference section.
+Finally, the DOI number in this R Markdown document is replaced by a human-readable citation key (i.e., Author_Year, e.g., "@Simmons_2011") for more convenient use. -->
+
 
 # Methods
-I report how I determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
+I report how I determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study [@doi:10.1177/0956797611417632].
+<!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from DOI: 10.1177/0956797611417632) -->
+
 
 ## Participants
 
+
 ## Material
 
+
 ## Procedure
+
 
 ## Data analysis
 
@@ -80,6 +90,7 @@ I used `r r_citations` for all our analyses.
 
 # Results
 
+
 # Discussion
 
 
@@ -89,3 +100,21 @@ I used `r r_citations` for all our analyses.
 
 :::{#refs}
 :::
+
+
+\clearpage
+
+# (APPENDIX) Appendix {-}
+
+# Eigenständigkeitserklärung
+
+Hiermit versichere ich, dass ich die vorliegende Arbeit selbstständig und ohne die Benutzung anderer als der angegebenen Hilfsmittel angefertigt habe.
+Alle Stellen, die wörtlich oder sinngemäß aus fremden veröffentlichten und nicht veröffentlichten Schriften entnommen wurden, sind als solche kenntlich gemacht.
+Ich versichere, dass eine etwaige eingereichte Druckfassung der eingereichten elektronischen Fassung vollständig entspricht.
+
+\vspace*{1.5cm}
+
+\begin{tabular}{@{}lp{7cm}@{}}
+\place, \thedate & \hrulefill \\
+& (\theauthor)
+\end{tabular}

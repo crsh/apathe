@@ -27,6 +27,12 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
 
+<!-- Um eine Quelle zu zitieren, geben Sie deren DOI wie folgt ein: @doi:10.1177/0956797611417632
+Während des Knit-Vorgangs wird die Referenz automatisch aus der Crossref-Datenbank heruntergeladen.
+Die bibliografischen Angaben werden dann in der Datei "__from_DOI.bib" gespeichert und dem Literaturverzeichnis hinzugefügt.
+Schließlich wird die DOI-Nummer in diesem R-Markdown-Dokument durch einen für Menschen lesbaren Zitiercode (d. h. Autor_Jahr, z. B. "@Simmons_2011") ersetzt, um die Verwendung im weiteren Verlauf zu vereinfachen. -->
+
+
 # Aufgabe 1
 
 ...
